@@ -1,0 +1,37 @@
+{
+  "growth": {
+    "weight": 0.25,
+    "sub_factors": {
+      "revenue_yoy": {"weight": 0.4, "higher_is_better": true},
+      "profit_yoy": {"weight": 0.3, "higher_is_better": true},
+      "revenue_3y_cagr": {"weight": 0.3, "higher_is_better": true}
+    }
+  },
+  "value": {
+    "weight": 0.25,
+    "sub_factors": {
+      "pe_inverse": {"weight": 0.35, "higher_is_better": true},
+      "pb_inverse": {"weight": 0.30, "higher_is_better": true},
+      "dividend_yield": {"weight": 0.15, "higher_is_better": true},
+      "ev_ebitda_inverse": {"weight": 0.20, "higher_is_better": true}
+    }
+  },
+  "quality": {
+    "weight": 0.25,
+    "sub_factors": {
+      "roe": {"weight": 0.35, "higher_is_better": true},
+      "gross_margin": {"weight": 0.25, "higher_is_better": true},
+      "ocf_to_profit": {"weight": 0.25, "higher_is_better": true},
+      "roe_stability": {"weight": 0.15, "higher_is_better": false}
+    }
+  },
+  "momentum": {
+    "weight": 0.25,
+    "sub_factors": {
+      "return_20d": {"weight": 0.30, "higher_is_better": true},
+      "return_60d": {"weight": 0.25, "higher_is_better": true},
+      "rsi_distance": {"weight": 0.20, "higher_is_better": false},
+      "volume_trend": {"weight": 0.25, "higher_is_better": true}
+    }
+  }
+}

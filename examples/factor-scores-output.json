@@ -1,0 +1,43 @@
+{
+  "total": 6.7,
+  "label": "潜力黑马",
+  "growth": {
+    "score": 7.8,
+    "weight": 0.25,
+    "sub_factors": {
+      "revenue_yoy": {"score": 8.2, "z": 1.35, "method": "zscore", "weight": 0.4, "value": 25.3},
+      "profit_yoy": {"score": 7.5, "z": 0.92, "method": "zscore", "weight": 0.3, "value": 18.5},
+      "revenue_3y_cagr": {"score": 7.6, "z": 0.98, "method": "zscore", "weight": 0.3, "value": 22.1}
+    }
+  },
+  "value": {
+    "score": 5.2,
+    "weight": 0.25,
+    "sub_factors": {
+      "pe_inverse": {"score": 5.8, "z": 0.15, "method": "zscore", "weight": 0.35, "value": 0.0449},
+      "pb_inverse": {"score": 4.2, "z": -0.52, "method": "zscore", "weight": 0.30, "value": 0.2083},
+      "dividend_yield": {"score": 4.5, "z": -0.38, "method": "zscore", "weight": 0.15, "value": 0.8},
+      "ev_ebitda_inverse": {"score": 5.5, "z": null, "method": "missing", "weight": 0.20}
+    }
+  },
+  "quality": {
+    "score": 7.2,
+    "weight": 0.25,
+    "sub_factors": {
+      "roe": {"score": 7.8, "z": 1.12, "method": "zscore", "weight": 0.35, "value": 18.5},
+      "gross_margin": {"score": 6.5, "z": 0.45, "method": "zscore", "weight": 0.25, "value": 21.2},
+      "ocf_to_profit": {"score": 7.5, "z": 0.95, "method": "zscore", "weight": 0.25, "value": 150.0},
+      "roe_stability": {"score": 6.8, "z": null, "method": "absolute", "weight": 0.15}
+    }
+  },
+  "momentum": {
+    "score": 6.5,
+    "weight": 0.25,
+    "sub_factors": {
+      "return_20d": {"score": 7.0, "z": 0.68, "method": "zscore", "weight": 0.30, "value": 8.5},
+      "return_60d": {"score": 6.2, "z": 0.32, "method": "zscore", "weight": 0.25, "value": 12.3},
+      "rsi_distance": {"score": 6.8, "z": -0.55, "method": "zscore", "weight": 0.20, "value": 8.2},
+      "volume_trend": {"score": 5.8, "z": 0.12, "method": "zscore", "weight": 0.25, "value": 105.0}
+    }
+  }
+}

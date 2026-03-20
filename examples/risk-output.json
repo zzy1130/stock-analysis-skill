@@ -1,0 +1,32 @@
+{
+  "var_95_parametric": -3.21,
+  "var_95_historical": -3.45,
+  "cvar_95": -4.82,
+  "max_drawdown": {
+    "max_dd_pct": 18.5,
+    "peak_date": "2025-09-15",
+    "trough_date": "2025-10-28",
+    "recovery_date": "2025-12-10",
+    "recovery_days": 43,
+    "current_dd_pct": 2.3
+  },
+  "volatility": {
+    "current_vol": 28.5,
+    "percentile": 62.3,
+    "regime": "MEDIUM"
+  },
+  "stress_tests": [
+    {"scenario": "大盘暴跌(-20%)", "market_shock_pct": -20.0, "expected_loss_pct": -20.0, "beta": 1.0},
+    {"scenario": "板块轮动(-10%)", "market_shock_pct": -10.0, "expected_loss_pct": -10.0, "beta": 1.0},
+    {"scenario": "加息冲击(-5%)", "market_shock_pct": -5.0, "expected_loss_pct": -5.0, "beta": 1.0}
+  ],
+  "kelly": {
+    "win_rate": 0.5333,
+    "avg_win": 0.0185,
+    "avg_loss": 0.0142,
+    "kelly_full": 0.1523,
+    "kelly_half": 0.0762
+  },
+  "stop_loss": 269.2,
+  "latest_close": 295.5
+}
