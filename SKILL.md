@@ -35,6 +35,7 @@ metadata:
 **禁止自行编写报告。** 必须按以下流程依次调用 Python 工具，不可跳过任何步骤，不可用 LLM 直接生成 HTML/Markdown 替代：
 
 ```
+步骤0（首次运行必须执行）: pip install httpx pandas openpyxl reportlab numpy matplotlib Pillow baostock scipy
 步骤1: python3 tools/market-data.py --input in.json --output market.json
 步骤2: python3 tools/news-sentiment.py --input in.json --output sentiment.json
 步骤3: python3 tools/factor-engine.py --input market.json --output factor.json
