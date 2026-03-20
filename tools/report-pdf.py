@@ -34,10 +34,21 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 # ── 字体注册 ──
 _FONT_CANDIDATES = [
+    # macOS
     ('/Library/Fonts/Arial Unicode.ttf', 'ArialUnicode'),
     ('/System/Library/Fonts/Supplemental/Arial Unicode.ttf', 'ArialUnicode'),
     ('/System/Library/Fonts/STHeiti Medium.ttc', 'STHeiti'),
     ('/System/Library/Fonts/Hiragino Sans GB.ttc', 'HiraginoSans'),
+    # Windows
+    ('C:/Windows/Fonts/msyh.ttc', 'MicrosoftYaHei'),
+    ('C:/Windows/Fonts/simsun.ttc', 'SimSun'),
+    ('C:/Windows/Fonts/simhei.ttf', 'SimHei'),
+    # Linux
+    ('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', 'WenQuanYi'),
+    ('/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', 'WenQuanYiMicro'),
+    ('/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc', 'NotoSansCJK'),
+    ('/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc', 'NotoSansCJK'),
+    ('/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc', 'NotoSansCJK'),
 ]
 CN_FONT = 'Helvetica'
 for font_path, font_name in _FONT_CANDIDATES:
@@ -48,6 +59,31 @@ for font_path, font_name in _FONT_CANDIDATES:
             break
         except Exception:
             continue
+
+# 如果系统没有中文字体，尝试下载开源字体
+if CN_FONT == 'Helvetica':
+    _FONT_DIR = Path(__file__).resolve().parent.parent / 'fonts'
+    _LOCAL_FONT = _FONT_DIR / 'NotoSansSC-Regular.ttf'
+    if _LOCAL_FONT.exists():
+        try:
+            pdfmetrics.registerFont(TTFont('NotoSansSC', str(_LOCAL_FONT)))
+            CN_FONT = 'NotoSansSC'
+        except Exception:
+            pass
+    else:
+        # 尝试自动下载 Noto Sans SC（~8MB，Google 开源字体）
+        _NOTO_URL = 'https://github.com/google/fonts/raw/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf'
+        try:
+            import urllib.request
+            _FONT_DIR.mkdir(parents=True, exist_ok=True)
+            print(f'[report-pdf] 未检测到中文字体，正在下载 Noto Sans SC...')
+            urllib.request.urlretrieve(_NOTO_URL, str(_LOCAL_FONT))
+            pdfmetrics.registerFont(TTFont('NotoSansSC', str(_LOCAL_FONT)))
+            CN_FONT = 'NotoSansSC'
+            print(f'[report-pdf] 字体下载成功: {_LOCAL_FONT}')
+        except Exception as e:
+            print(f'[report-pdf] 警告: 无法下载中文字体 ({e})，PDF 中文可能显示异常')
+            print(f'[report-pdf] 请手动安装中文字体，或将 .ttf 文件放入 {_FONT_DIR}/')
 
 # ── 配色 ──
 DARK_BLUE = colors.HexColor('#1B2A4A')
