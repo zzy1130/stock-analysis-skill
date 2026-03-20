@@ -13,7 +13,7 @@ metadata:
         {
           "id": "pip-deps",
           "kind": "python",
-          "package": "httpx pandas openpyxl reportlab numpy matplotlib baostock scipy",
+          "package": "httpx pandas openpyxl reportlab numpy matplotlib Pillow baostock scipy",
           "label": "Install Python dependencies"
         }
       ],

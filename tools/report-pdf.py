@@ -280,13 +280,24 @@ def _build_page1(data, story):
         ('FONTNAME', (0,0), (-1,-1), CN_FONT),
     ]))
 
-    # Radar
+    # Radar or text fallback
     radar_path = _render_factor_radar(factor)
     if radar_path:
         radar_img = Image(radar_path, width=55*mm, height=55*mm)
         combo = Table([[score_left, f_table, radar_img]], colWidths=[40*mm, 72*mm, PAGE_W - 112*mm])
     else:
-        combo = Table([[score_left, f_table]], colWidths=[40*mm, PAGE_W - 40*mm])
+        # 文字版因子条形图 fallback
+        def _bar(score, max_w=10):
+            filled = int(round(score))
+            return '█' * filled + '░' * (max_w - filled)
+
+        bar_lines = []
+        for key, name in factor_names.items():
+            fs = factor.get(key, {}).get('score', 5)
+            fc = _color_for_score(fs)
+            bar_lines.append(f'<font color="{fc.hexval()}">{_bar(fs)}</font> {name} {fs:.1f}')
+        radar_text = Paragraph('<br/>'.join(bar_lines), _s('radar_fb', fontSize=8, leading=13, fontName=CN_FONT))
+        combo = Table([[score_left, f_table, radar_text]], colWidths=[40*mm, 72*mm, PAGE_W - 112*mm])
 
     combo.setStyle(TableStyle([
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
@@ -476,6 +487,27 @@ def _build_page2(data, story):
                 _s('cap', fontSize=7.5, textColor=MEDIUM_GRAY, alignment=TA_CENTER)
             ))
         story.append(Spacer(1, 4*mm))
+    elif closes and len(closes) >= 5:
+        # Fallback: 文字版K线摘要
+        hi, lo = max(closes), min(closes)
+        cur = closes[-1]
+        chg = (closes[-1] / closes[0] - 1) * 100 if closes[0] else 0
+        chg_c = RED if chg > 0 else (GREEN if chg < 0 else MEDIUM_GRAY)
+        date_range = f'{dates[0]} ~ {dates[-1]}' if dates else f'{len(closes)} 交易日'
+        kline_text = (
+            f'<font color="{MEDIUM_GRAY.hexval()}">[图表未能渲染，以下为数据摘要]</font><br/>'
+            f'<b>区间:</b> {date_range}　　<b>数据点:</b> {len(closes)} 天<br/>'
+            f'<b>最高:</b> {hi:.2f}　　<b>最低:</b> {lo:.2f}　　<b>当前:</b> {cur:.2f}　　'
+            f'<b>区间涨跌:</b> <font color="{chg_c.hexval()}">{chg:+.2f}%</font>'
+        )
+        kline_box = Table([[Paragraph(kline_text, s_body)]], colWidths=[PAGE_W - 4*mm])
+        kline_box.setStyle(TableStyle([
+            ('BACKGROUND',(0,0),(-1,-1), LIGHT_GRAY),
+            ('BOX',(0,0),(-1,-1), 0.5, colors.HexColor('#E0E0E0')),
+            ('TOPPADDING',(0,0),(-1,-1), 3*mm), ('BOTTOMPADDING',(0,0),(-1,-1), 3*mm),
+            ('LEFTPADDING',(0,0),(-1,-1), 3*mm),
+        ]))
+        story.extend([kline_box, Spacer(1, 4*mm)])
 
     # ── Technical Signals ──
     story.append(_section('五、技术信号'))
