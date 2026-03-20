@@ -107,7 +107,7 @@ def _s(name, **kw):
 
 def _section(text):
     return Paragraph(
-        f'<font color="{ACCENT_GOLD.hexval()}">\u2759</font> {text}',
+        f'<font color="{ACCENT_GOLD.hexval()}">|</font> {text}',
         _s('sec', fontSize=13, leading=18, textColor=DARK_BLUE, spaceBefore=5*mm, spaceAfter=3*mm)
     )
 
@@ -169,7 +169,8 @@ def _render_sparkline(closes, width_mm=160, height_mm=40):
         fig.savefig(tmpfile.name, dpi=150, bbox_inches="tight", pad_inches=0.02)
         plt.close(fig)
         return tmpfile.name
-    except Exception:
+    except Exception as e:
+        print(f'[report-pdf] Sparkline 渲染失败: {e}')
         return None
 
 
@@ -206,7 +207,8 @@ def _render_factor_radar(factor_scores, width_mm=75, height_mm=75):
         fig.savefig(tmpfile.name, dpi=150, bbox_inches="tight", pad_inches=0.02)
         plt.close(fig)
         return tmpfile.name
-    except Exception:
+    except Exception as e:
+        print(f'[report-pdf] 雷达图渲染失败: {e}')
         return None
 
 
