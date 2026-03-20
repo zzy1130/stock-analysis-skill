@@ -30,6 +30,23 @@ metadata:
 
 量化工具箱，从数据采集到多页 PDF 投研报告。仅用于研究学习，不构成投资建议。
 
+## 强制执行规则
+
+**禁止自行编写报告。** 必须按以下流程依次调用 Python 工具，不可跳过任何步骤，不可用 LLM 直接生成 HTML/Markdown 替代：
+
+```
+步骤1: python3 tools/market-data.py --input in.json --output market.json
+步骤2: python3 tools/news-sentiment.py --input in.json --output sentiment.json
+步骤3: python3 tools/factor-engine.py --input market.json --output factor.json
+步骤4: python3 tools/risk-engine.py --input market.json --output risk.json
+步骤5: python3 tools/portfolio-signal.py --factor factor.json --risk risk.json --sentiment sentiment.json --output signal.json
+步骤6: 撰写 insights JSON（见下方"撰写解读"章节）
+步骤7: python3 tools/assemble.py --market market.json --factor factor.json --risk risk.json --signal signal.json --sentiment sentiment.json --insights insights.json --output combined.json
+步骤8: python3 tools/report-pdf.py --data combined.json --output 报告.pdf
+```
+
+**最终产物必须是 PDF 文件**（由 `report-pdf.py` 生成），不是 HTML、不是 Markdown、不是纯文本。工作目录必须 `cd` 到本 skill 的根目录再执行。
+
 ## 首次使用
 
 需要东方财富 EM API Key（免费申请）：
